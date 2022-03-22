@@ -29,6 +29,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
+        System.out.println("in Filter");
         try {
             String jwt = parseJwt(request);
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
@@ -44,8 +45,11 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         }
         filterChain.doFilter(request, response);
     }
+
+    //return the accessToken from the request
     private String parseJwt(HttpServletRequest request) {
         String headerAuth = request.getHeader("Authorization");
+        System.out.println(request);
         if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
             return headerAuth.substring(7, headerAuth.length());
         }
@@ -54,9 +58,17 @@ public class AuthTokenFilter extends OncePerRequestFilter {
 }
 /*
     What we do inside doFilterInternal():
-        – get JWT from the Authorization header (by removing Bearer prefix)
+        – get JWT-token from the Authorization header (by removing Bearer prefix)
         – if the request has JWT, validate it, parse username from it
         – from username, get UserDetails to create an Authentication object
         – set the current UserDetails in SecurityContext using setAuthentication(authentication) method.
+
+        After this, everytime you want to get UserDetails, just use SecurityContext like this:
+        UserDetails userDetails =
+	(UserDetails) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+     userDetails.getUsername()
+     userDetails.getPassword()
+     userDetails.getAuthorities()
+
         */
 

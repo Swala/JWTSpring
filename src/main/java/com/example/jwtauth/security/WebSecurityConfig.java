@@ -19,8 +19,8 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 
 
 @Configuration
-@EnableWebSecurity
-@EnableGlobalMethodSecurity(
+@EnableWebSecurity //spring finds and automatically applies class to global web security
+@EnableGlobalMethodSecurity( //enables pre- and post-Authorize and annotations
         //securedEnabled = true,
         //jsr250Enabled = true,
         prePostEnabled = true
@@ -46,7 +46,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Bean
     @Override
-    public AuthenticationManager authenticationManagerBean() throws Exception {
+    public AuthenticationManager authenticationManagerBean() throws Exception { //AuthenticationManager handles auth requests from other parts of the framework
         return super.authenticationManagerBean();
     }
     @Bean
@@ -54,6 +54,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         return new BCryptPasswordEncoder();
     }
 
+    //overrides method from webSecurityConfigureAdapter. Tells spring security how to configure CORS and CSRF, which filter, AuthTokenFilter and when to apply filter.
+    //by defalult spring adds a CSRF-token to a httpSecurity attribute, but this needs to be disabled when using JWT (replaces the CSRF-token)
+    //since I am using a stateless APi (not using cookies for auth) there is no need for CSRF protection.
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
@@ -62,9 +65,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests().antMatchers("/api/auth/**").permitAll()
                 .antMatchers("/api/test/**").permitAll()
                 .anyRequest().authenticated();
-        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
+        http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class); //this is done before any request gets to the API
     }
-
 
     // Used by spring security if CORS is enabled.
    /* @Bean
