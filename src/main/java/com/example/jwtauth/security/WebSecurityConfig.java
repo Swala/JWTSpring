@@ -15,6 +15,7 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 
@@ -67,6 +68,17 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .anyRequest().authenticated();
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class); //this is done before any request gets to the API
     }
+
+    //to use https and keystore
+  /*  @Bean
+    SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+        return http
+                .requiresChannel(channel ->
+                        channel.anyRequest().requiresSecure())
+                .authorizeRequests(authorize ->
+                        authorize.anyRequest().permitAll())
+                .build();
+    }*/
 
     // Used by spring security if CORS is enabled.
    /* @Bean

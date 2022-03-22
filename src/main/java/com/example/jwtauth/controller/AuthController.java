@@ -47,7 +47,7 @@ public class AuthController {
 
     @PostMapping("/signin")
     public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) { //removed @Valid?
-        System.out.println("from controller");
+        System.out.println("controller/login");
         //if successful authentication -> get user info from Authentication object
         Authentication authentication = authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
@@ -64,7 +64,10 @@ public class AuthController {
                 userDetails.getId(),
                 userDetails.getUsername(),
                 userDetails.getEmail(),
-                roles));
+                roles,
+                userDetails.getFirstName(),
+                userDetails.getLastName()));
+
     }
 
     @PostMapping("/signup")
@@ -82,7 +85,9 @@ public class AuthController {
         // Create new user's account
         User user = new User(signUpRequest.getUsername(),
                 signUpRequest.getEmail(),
-                encoder.encode(signUpRequest.getPassword()));
+                encoder.encode(signUpRequest.getPassword()),
+                signUpRequest.getFirstName(),
+                signUpRequest.getLastName());
         Set<String> strRoles = signUpRequest.getRole();
         Set<Role> roles = new HashSet<>();
 

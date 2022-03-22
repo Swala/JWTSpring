@@ -29,7 +29,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        System.out.println("in Filter");
+        System.out.println("in Filter 3");
         try {
             String jwt = parseJwt(request);
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
@@ -49,7 +49,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     //return the accessToken from the request
     private String parseJwt(HttpServletRequest request) {
         String headerAuth = request.getHeader("Authorization");
-        System.out.println(request);
+        System.out.println("parse JWT 4");
         if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
             return headerAuth.substring(7, headerAuth.length());
         }

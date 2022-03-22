@@ -25,8 +25,16 @@ public class UserEntity implements Serializable {
     @Column
     private String password;
 
-    public UserEntity(String username, String password) {
+    @Column
+    private String firstName;
+
+    @Column
+    private String lastName;
+
+    public UserEntity(String username, String password, String firstName, String lastName) {
         this.username = username;
         this.password = password;
+        this.firstName = firstName;
+        this.lastName = lastName;
     }
 }
