@@ -1,7 +1,6 @@
 package com.example.jwtauth.controller;
 
-import com.example.jwtauth.security.services.FlagService;
-import org.springframework.security.access.prepost.PreAuthorize;
+import com.example.jwtauth.service.FlagService;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;

@@ -1,4 +1,4 @@
-package com.example.jwtauth.security.services;
+package com.example.jwtauth.service;
 
 import com.example.jwtauth.model.Flag;
 import com.example.jwtauth.repository.FlagRepo;
