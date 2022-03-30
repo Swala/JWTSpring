@@ -9,13 +9,16 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.WebAuthenticationDetailsSource;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.Cookie;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Arrays;
 
 public class AuthTokenFilter extends OncePerRequestFilter {
 
@@ -29,7 +32,9 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        System.out.println("in Filter 3");
+        System.out.println("in Filter " + request.getHeader("origin")); //works
+        System.out.println("in Filter " + request.getHeader("testcookie")); //null
+
         try {
             String jwt = parseJwt(request);
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
@@ -46,14 +51,21 @@ public class AuthTokenFilter extends OncePerRequestFilter {
         filterChain.doFilter(request, response);
     }
 
-    //return the accessToken from the request
-    private String parseJwt(HttpServletRequest request) {
+    //return the accessToken from the request, if using local storage
+   /* private String parseJwt(HttpServletRequest request) {
         String headerAuth = request.getHeader("Authorization");
         System.out.println("parse JWT 4");
         if (StringUtils.hasText(headerAuth) && headerAuth.startsWith("Bearer ")) {
             return headerAuth.substring(7, headerAuth.length());
         }
         return null;
+    }*/
+
+    //if using Cookie
+    private String parseJwt(HttpServletRequest request) {
+        String jwt = jwtUtils.getJwtFromCookies(request);
+        System.out.println("parse " + request); //null...
+        return jwt;
     }
 }
 /*

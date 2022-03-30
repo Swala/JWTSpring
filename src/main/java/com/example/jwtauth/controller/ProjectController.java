@@ -6,9 +6,11 @@ import com.example.jwtauth.model.Project;
 import com.example.jwtauth.service.ProjectService;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import javax.validation.Valid;
 import java.util.List;
 
-@CrossOrigin(origins = "*", maxAge = 3600) //* all origins are allowed
+@CrossOrigin(maxAge = 3600, origins = "http://localhost:3000", allowCredentials = "true", allowedHeaders = "*") //* all origins are allowed, origins = "*",
 @RestController
 @RequestMapping("/api/project")
 public class ProjectController {
@@ -25,7 +27,7 @@ public class ProjectController {
     }
 
     @PostMapping("/create")
-    public ResponseEntity<ProjectDTO> createProject(@RequestBody CreateProjectDTO cProject) {
+    public ResponseEntity<ProjectDTO> createProject(@Valid @RequestBody CreateProjectDTO cProject) {
         try {
             Project project = projectService.createProject(
                     cProject.getName(), cProject.getDeadline(), cProject.getDescription());
@@ -42,6 +44,5 @@ public class ProjectController {
                 project.getDeadline(),
                 project.getDescription(),
                 project.getFlag().toString());
-        //getGroups().stream().map(id ->  groupRemote.getNameById(id)).collect(Collectors.toList())//handle null exeption
     }
 }

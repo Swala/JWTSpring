@@ -11,7 +11,18 @@ import java.util.Date;
 
 @Data
 public class CreateProjectDTO {
+    @JsonProperty(required = true)
+    @NotEmpty
+    @NotBlank
     String name;
+
+    @JsonProperty(required = true)
+    @NotEmpty
+    @NotBlank
     Date deadline;
+
+    @JsonProperty(required = true)
+    @NotEmpty
+    @NotBlank
     String description;
 }

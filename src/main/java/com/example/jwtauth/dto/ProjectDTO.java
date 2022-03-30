@@ -3,9 +3,6 @@ package com.example.jwtauth.dto;
 import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.Value;
 
 import java.util.Date;
 
