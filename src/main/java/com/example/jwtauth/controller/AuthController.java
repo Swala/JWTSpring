@@ -12,6 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseCookie;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
@@ -26,7 +27,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@CrossOrigin(maxAge = 3600, origins = "http://localhost:3000", allowCredentials = "true", allowedHeaders = "*") //origins = "*", origins = "http://localhost:3000", allowCredentials = "true"
+@CrossOrigin(maxAge = 3600, origins = "http://localhost:3000", allowCredentials = "true") //origins = "*", origins = "http://localhost:3000", allowCredentials = "true"
 @RestController
 @RequestMapping("/api/auth")
 public class AuthController {
@@ -66,8 +67,8 @@ public class AuthController {
 
 
 
-        //return JWT in cookie
-        return  ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString()) // HttpHeaders.AUTHORIZATION, jwtCookie.toString()
+        //return JWT in cookie, the JWT is not readable on client, only the info in body
+        return  ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
                 .body(new UserInfoResponse(userDetails.getId(),
                         userDetails.getUsername(),
                         userDetails.getEmail(),
@@ -88,6 +89,7 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
         if (userRepo.existsByUsername(signUpRequest.getUsername())) {
             return ResponseEntity

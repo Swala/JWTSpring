@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 import java.util.stream.Collectors;
 
-@CrossOrigin(maxAge = 3600, origins = "http://localhost:3000", allowCredentials = "true", allowedHeaders = "*") //* all origins are allowed origins = "http://localhost:3000", allowCredentials = "true"
+@CrossOrigin(maxAge = 3600, origins = "http://localhost:3000", allowCredentials = "true") //* all origins are allowed origins = "http://localhost:3000", allowCredentials = "true"
 @RestController
 @RequestMapping("/api/flag")
 public class FlagController {

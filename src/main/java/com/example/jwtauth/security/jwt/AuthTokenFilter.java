@@ -32,8 +32,7 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
-        System.out.println("in Filter " + request.getHeader("origin")); //works
-        System.out.println("in Filter " + request.getHeader("testcookie")); //null
+        //System.out.println("in Filter " + request.getHeader("testcookie"));
 
         try {
             String jwt = parseJwt(request);
@@ -64,7 +63,6 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     //if using Cookie
     private String parseJwt(HttpServletRequest request) {
         String jwt = jwtUtils.getJwtFromCookies(request);
-        System.out.println("parse " + request); //null...
         return jwt;
     }
 }

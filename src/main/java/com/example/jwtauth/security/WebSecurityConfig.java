@@ -57,13 +57,14 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     //overrides method from webSecurityConfigureAdapter. Tells spring security how to configure CORS and CSRF, which filter, AuthTokenFilter and when to apply filter.
     //by defalult spring adds a CSRF-token to a httpSecurity attribute, but this needs to be disabled when using JWT (replaces the CSRF-token)
-    //since I am using a stateless APi (not using cookies for auth) there is no need for CSRF protection.
+    //when using a stateless APi (no use of cookies) there is no need for CSRF protection, tokens are immune?
     @Override
     protected void configure(HttpSecurity http) throws Exception {
         http.cors().and().csrf().disable()
                 .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and()
-                .authorizeRequests().antMatchers("/api/auth/**").permitAll()
+                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and() //Strict, will not create a session
+                .authorizeRequests().antMatchers("/api/auth/signin").permitAll()
+                .antMatchers("api/auth/signup").hasAuthority("ADMIN")
                 .antMatchers("/api/test/**").permitAll()
                 .anyRequest().authenticated();
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class); //this is done before any request gets to the API
