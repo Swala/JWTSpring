@@ -68,6 +68,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .antMatchers("/api/test/**").permitAll()
                 .anyRequest().authenticated();
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class); //this is done before any request gets to the API
+        //http.requiresChannel().antMatchers("/api").requiresSecure(); enable HTTPS??
     }
 
     //to use https and keystore

@@ -1,6 +1,7 @@
 package com.example.jwtauth.dto;
 
 import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Data;
 
@@ -18,7 +19,7 @@ public class ProjectDTO {
     public ProjectDTO(
             @JsonProperty("id") Long id,
             @JsonProperty("name") String name,
-            @JsonProperty("deadline") Date deadline,
+            @JsonProperty("deadline") @JsonFormat(pattern = "yyy-MM-dd")Date deadline,
             @JsonProperty("description") String description,
             @JsonProperty("flag") String flag) {
         this.id = id;

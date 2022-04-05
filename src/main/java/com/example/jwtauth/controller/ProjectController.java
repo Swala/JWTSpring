@@ -5,6 +5,7 @@ import com.example.jwtauth.dto.ProjectDTO;
 import com.example.jwtauth.exceptions.ProjectNotFoundException;
 import com.example.jwtauth.model.Project;
 import com.example.jwtauth.service.ProjectService;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -14,6 +15,7 @@ import java.util.List;
 @CrossOrigin(maxAge = 3600, origins = "http://localhost:3000", allowCredentials = "true") //* all origins are allowed, origins = "*",
 @RestController
 @RequestMapping("/api/project")
+@ResponseBody
 public class ProjectController {
 
     ProjectService projectService;
@@ -39,9 +41,26 @@ public class ProjectController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<ProjectDTO> findProjectById(@PathVariable ("id") Long id) throws ProjectNotFoundException {
-        System.out.println("from controller " + id );
-        return ResponseEntity.ok(toDTO(projectService.findProjectById(id)));
+    public ResponseEntity<?> findProjectById(@PathVariable ("id") Long id)  {
+        try {
+            return ResponseEntity.ok(toDTO(projectService.findProjectById(id)));
+        }catch (ProjectNotFoundException e) {
+            return new ResponseEntity<>(new ProjectNotFoundException(id), HttpStatus.NOT_FOUND);
+
+        }
+
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<ProjectNotFoundException> deleteProjectById(@PathVariable ("id") Long id) {
+        //System.out.println("from controller " + id );
+        try {
+            projectService.deleteProject(id);
+        }catch (ProjectNotFoundException e) {
+            return new ResponseEntity<>(
+                    new ProjectNotFoundException(id), HttpStatus.NOT_FOUND);
+        }
+        return null;
     }
 
     public ProjectDTO toDTO(Project project) {

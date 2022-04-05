@@ -78,6 +78,7 @@ public class JwtUtils {
     }*/
 
 
+    //Could refresh the token if it's close to expiring...
     public boolean validateJwtToken(String authToken) {
         try {
             Jwts.parser().setSigningKey(jwtSecret).parseClaimsJws(authToken);

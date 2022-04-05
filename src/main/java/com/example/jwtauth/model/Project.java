@@ -1,5 +1,7 @@
 package com.example.jwtauth.model;
 
+import org.hibernate.annotations.Cascade;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
@@ -23,7 +25,7 @@ public class Project implements Serializable {
     private String description;
 
     //should be manyToOne, unidirectional relation where flag does not know about the relation
-    @ManyToOne(cascade = CascadeType.ALL)
+    @ManyToOne
     private Flag flag;
 
     /*@ManyToOne

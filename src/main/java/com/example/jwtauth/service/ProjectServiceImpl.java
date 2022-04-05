@@ -32,9 +32,17 @@ public class ProjectServiceImpl implements ProjectService {
         return projectRepo.save(nProject);
     }
 
+    @Override
     public Project findProjectById(Long id) {
-        Optional<Project> optionalProject = Optional.ofNullable(projectRepo.getById(id));
+        Optional<Project> optionalProject = Optional.of(projectRepo.getById(id));
 
         return optionalProject.get();
     };
+
+    @Override
+    public void deleteProject(Long id) {
+        projectRepo.deleteById(id);
+    }
+
+
 }

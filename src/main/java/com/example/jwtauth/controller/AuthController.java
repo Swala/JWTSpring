@@ -65,8 +65,6 @@ public class AuthController {
         ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
         System.out.println(jwtCookie);
 
-
-
         //return JWT in cookie, the JWT is not readable on client, only the info in body
         return  ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
                 .body(new UserInfoResponse(userDetails.getId(),
