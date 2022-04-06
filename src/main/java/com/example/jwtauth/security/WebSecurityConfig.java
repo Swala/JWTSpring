@@ -65,7 +65,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS).and() //Strict, will not create a session
                 .authorizeRequests().antMatchers("/api/auth/signin").permitAll()
                 .antMatchers("api/auth/signup").hasAuthority("ADMIN")
-                .antMatchers("/api/test/**").permitAll()
+                .antMatchers("/api/project/**").permitAll()
                 .anyRequest().authenticated();
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class); //this is done before any request gets to the API
         //http.requiresChannel().antMatchers("/api").requiresSecure(); enable HTTPS??

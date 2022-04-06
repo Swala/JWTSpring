@@ -10,6 +10,7 @@ import java.util.Optional;
 @Repository
 public interface FlagRepo extends JpaRepository <Flag, Integer> {
     Optional<Flag> findByName(EFlag name);
+    Optional<Flag> findById(Integer id);
     Optional<Flag> save(EFlag name);
 
 }

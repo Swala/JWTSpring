@@ -21,7 +21,7 @@ public class RoleController {
     }
 
     @GetMapping("/all")
-    public List<Role> getAll () { //Only send back String name
+    public List<Role> getAll () {
         return roleService.getAll();
     }
 }

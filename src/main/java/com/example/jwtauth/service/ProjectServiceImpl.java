@@ -1,6 +1,4 @@
 package com.example.jwtauth.service;
-import com.example.jwtauth.exceptions.ProjectNotFoundException;
-import com.example.jwtauth.model.EFlag;
 import com.example.jwtauth.model.Flag;
 import com.example.jwtauth.model.Project;
 import com.example.jwtauth.repository.FlagRepo;
@@ -44,5 +42,24 @@ public class ProjectServiceImpl implements ProjectService {
         projectRepo.deleteById(id);
     }
 
+    @Override
+    public Project updateProject(Long id, String name, Date deadline, String description, Integer flagId) {
+        System.out.println(id);
+        System.out.println(flagId);
+        Project project = findProjectById(id);
+        Optional<Flag> flag = flagRepo.findById(flagId);
+
+        if(project != null){
+            project.setName(name);
+            project.setDeadline(deadline);
+            project.setDescription(description);
+            project.setFlag(flag.get());
+
+            return projectRepo.save(project);
+        }
+
+
+        return null;
+    }
 
 }
